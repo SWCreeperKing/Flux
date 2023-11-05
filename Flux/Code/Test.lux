@@ -1,0 +1,10 @@
+﻿pub int main(int arg) {
+    `this; is a comment
+    print "hello world"
+    ' \' ';" :) "
+    " \"  ''   ";;;;
+    "
+    accidental multi-string"
+    
+    return 0
+}

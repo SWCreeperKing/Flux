@@ -1,0 +1,34 @@
+﻿namespace Flux;
+
+public record Token(string Data);
+public record TokenGroup(Token[] Tokens) : Token(string.Join('\r', Tokens.Select(token => token.Data)));
+public record TokenFile(Token[] Tokens) : TokenGroup(Tokens);
+public record Tab() : Token("\t");
+public record Space() : Token(" ");
+public record CommentStart() : Token("`");
+public record OpenBracket() : Token("(");
+public record ParaSet(Token[] Tokens) : TokenGroup(Tokens);
+public record CloseBracket() : Token(")");
+public record OpenSquareBracket() : Token("[");
+public record CloseSquareBracket() : Token("]");
+public record OpenCurlyBracket() : Token("{");
+public record CloseCurlyBracket() : Token("}");
+public record Body(Token[] Tokens) : TokenGroup(Tokens);
+public record DoubleQuote() : Token("\"");
+public record SingleQuote() : Token("'");
+public record Escape() : Token("\\");
+public record NewLine() : Token("\n");
+public record Separate() : Token(";");
+public record Character(char Char) : Token(Char.ToString());
+public record CharacterGroup(string Data) : Token(Data);
+public record CharacterString(string Data) : Token(Data);
+public record Comment(string Data) : Token(Data);
+public record AccessModifier(string Data) : CharacterGroup(Data);
+public record PublicToken() : AccessModifier("public");
+public record PrivateToken() : AccessModifier("private");
+public record TypeToken(string Data) : CharacterGroup(Data);
+public record PrimitiveType(string Data) : TypeToken(Data);
+public record NumericalType(string Data) : PrimitiveType(Data);
+public record IntegerType() : NumericalType("int");
+public record Function(TypeToken Type, CharacterGroup Name, ParaSet Parameters, Body Body) : TokenGroup(new Token[]
+    { Type, Name, Parameters, Body });
